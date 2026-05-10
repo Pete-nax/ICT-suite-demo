@@ -1,0 +1,53 @@
+services:
+  # ── API (Docker) ────────────────────────────────────────────────────────────
+  - type: web
+    name: kenit-api
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /actuator/health
+
+    envVars:
+      - key: SPRING_PROFILES_ACTIVE
+        value: prod
+
+      # Using the five individual DB properties, NOT connectionString.
+      # Render's connectionString returns postgres://... which is not a
+      # valid JDBC URL. Spring Boot needs jdbc:postgresql://...
+      - key: DB_HOST
+        fromDatabase:
+          name: kenit-db
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: kenit-db
+          property: port
+      - key: DB_NAME
+        fromDatabase:
+          name: kenit-db
+          property: database
+      - key: DB_USER
+        fromDatabase:
+          name: kenit-db
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: kenit-db
+          property: password
+
+  # ── Static Frontend ─────────────────────────────────────────────────────────
+  - type: web
+    name: kenit-ui
+    runtime: static
+    staticPublishPath: frontend
+    buildCommand: ""
+
+    # Step after first deploy:
+    # 1. Copy kenit-api URL from Render dashboard
+    # 2. Paste it in frontend/config.js → window.KENIT_API_URL = "https://kenit-api.onrender.com"
+    # 3. Push to GitHub — kenit-ui redeploys automatically
+
+databases:
+  - name: kenit-db
+    databaseName: kenitdb
+    plan: free

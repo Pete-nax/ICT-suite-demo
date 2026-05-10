@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KenIT — ICT Management Suite</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- Sidebar Navigation -->
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-brand">
+            <div class="brand-icon">K</div>
+            <div>
+                <div class="brand-name">KenIT</div>
+                <div class="brand-sub">ICT Suite v1.0</div>
+            </div>
+        </div>
+
+        <ul class="nav-links">
+            <li>
+                <a href="#" class="nav-link active" data-view="dashboard">
+                    <span class="nav-icon">◈</span>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="nav-link" data-view="tickets">
+                    <span class="nav-icon">⊡</span>
+                    <span>Helpdesk</span>
+                    <span class="nav-badge" id="nav-open-count">—</span>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="nav-link" data-view="assets">
+                    <span class="nav-icon">◱</span>
+                    <span>Assets</span>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="nav-link" data-view="network">
+                    <span class="nav-icon">◎</span>
+                    <span>Network</span>
+                    <span class="nav-dot online" id="nav-network-dot"></span>
+                </a>
+            </li>
+        </ul>
+
+        <div class="sidebar-footer">
+            <div class="org-name">Organization: Demo Org</div>
+            <div class="org-location">📍 Nairobi, Kenya</div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+
+        <!-- Top Bar -->
+        <header class="topbar">
+            <div class="topbar-left">
+                <h1 class="page-title" id="page-title">Dashboard</h1>
+                <span class="page-sub" id="page-sub">Overview · Africa/Nairobi (EAT)</span>
+            </div>
+            <div class="topbar-right">
+                <div class="time-display" id="time-display"></div>
+                <button class="btn-primary" id="btn-new-ticket">+ New Ticket</button>
+            </div>
+        </header>
+
+        <!-- DASHBOARD VIEW -->
+        <div class="view active" id="view-dashboard">
+
+            <div class="stats-grid">
+                <div class="stat-card critical" id="stat-critical">
+                    <div class="stat-icon">🔴</div>
+                    <div class="stat-value" id="stat-critical-val">—</div>
+                    <div class="stat-label">Critical Tickets</div>
+                </div>
+                <div class="stat-card open" id="stat-open">
+                    <div class="stat-icon">🎫</div>
+                    <div class="stat-value" id="stat-open-val">—</div>
+                    <div class="stat-label">Open Tickets</div>
+                </div>
+                <div class="stat-card resolved">
+                    <div class="stat-icon">✅</div>
+                    <div class="stat-value" id="stat-resolved-val">—</div>
+                    <div class="stat-label">Resolved Today</div>
+                </div>
+                <div class="stat-card assets">
+                    <div class="stat-icon">🖥️</div>
+                    <div class="stat-value" id="stat-assets-val">—</div>
+                    <div class="stat-label">Active Assets</div>
+                </div>
+                <div class="stat-card online">
+                    <div class="stat-icon">📡</div>
+                    <div class="stat-value" id="stat-online-val">—</div>
+                    <div class="stat-label">Devices Online</div>
+                </div>
+                <div class="stat-card value">
+                    <div class="stat-icon">💰</div>
+                    <div class="stat-value" id="stat-value-val">—</div>
+                    <div class="stat-label">Asset Value (KES)</div>
+                </div>
+            </div>
+
+            <div class="dashboard-bottom">
+                <div class="card recent-tickets-card">
+                    <div class="card-header">
+                        <h3>Recent Tickets</h3>
+                        <a href="#" class="card-link" data-view="tickets">View all →</a>
+                    </div>
+                    <div class="ticket-list" id="recent-tickets-list">
+                        <div class="loading-pulse">Loading tickets...</div>
+                    </div>
+                </div>
+
+                <div class="card network-status-card">
+                    <div class="card-header">
+                        <h3>Network Status</h3>
+                        <span class="last-scan" id="last-scan-time">—</span>
+                    </div>
+                    <div class="network-bars" id="network-bars">
+                        <div class="loading-pulse">Loading network data...</div>
+                    </div>
+                    <div class="network-summary">
+                        <span id="online-count-text">—</span> online
+                        <span class="separator">·</span>
+                        <span id="offline-count-text">—</span> offline
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TICKETS VIEW -->
+        <div class="view" id="view-tickets">
+            <div class="view-toolbar">
+                <div class="filter-tabs">
+                    <button class="filter-tab active" data-filter="ALL">All</button>
+                    <button class="filter-tab" data-filter="OPEN">Open</button>
+                    <button class="filter-tab" data-filter="IN_PROGRESS">In Progress</button>
+                    <button class="filter-tab" data-filter="RESOLVED">Resolved</button>
+                </div>
+                <button class="btn-primary" id="btn-new-ticket-2">+ New Ticket</button>
+            </div>
+            <div class="tickets-table-wrap">
+                <table class="data-table" id="tickets-table">
+                    <thead>
+                        <tr>
+                            <th>Ticket #</th>
+                            <th>Title</th>
+                            <th>Priority</th>
+                            <th>Status</th>
+                            <th>Department</th>
+                            <th>Raised By</th>
+                            <th>Assigned To</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tickets-tbody">
+                        <tr><td colspan="8" class="loading-pulse">Loading...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ASSETS VIEW -->
+        <div class="view" id="view-assets">
+            <div class="view-toolbar">
+                <input type="text" class="search-input" id="asset-search" placeholder="Search assets...">
+                <button class="btn-primary" id="btn-new-asset">+ Add Asset</button>
+            </div>
+            <div class="assets-grid" id="assets-grid">
+                <div class="loading-pulse">Loading assets...</div>
+            </div>
+        </div>
+
+        <!-- NETWORK VIEW -->
+        <div class="view" id="view-network">
+            <div class="view-toolbar">
+                <div class="scan-info">
+                    <span class="pulse-dot"></span>
+                    Monitoring active · Auto-refresh every 30s
+                </div>
+                <button class="btn-secondary" id="btn-refresh-network">↻ Refresh</button>
+            </div>
+            <div class="network-grid" id="network-grid">
+                <div class="loading-pulse">Loading network devices...</div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- NEW TICKET MODAL -->
+    <div class="modal-overlay" id="ticket-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2>New Support Ticket</h2>
+                <button class="modal-close" id="close-ticket-modal">✕</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Title *</label>
+                        <input type="text" id="t-title" placeholder="e.g. Printer not responding">
+                    </div>
+                </div>
+                <div class="form-row two-col">
+                    <div class="form-group">
+                        <label>Department *</label>
+                        <select id="t-department">
+                            <option value="">Select department</option>
+                            <option>ICT</option>
+                            <option>Finance</option>
+                            <option>HR</option>
+                            <option>Registry</option>
+                            <option>Administration</option>
+                            <option>Procurement</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Priority *</label>
+                        <select id="t-priority">
+                            <option value="LOW">Low</option>
+                            <option value="MEDIUM" selected>Medium</option>
+                            <option value="HIGH">High</option>
+                            <option value="CRITICAL">Critical</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row two-col">
+                    <div class="form-group">
+                        <label>Category *</label>
+                        <select id="t-category">
+                            <option value="HARDWARE">Hardware</option>
+                            <option value="SOFTWARE">Software</option>
+                            <option value="NETWORK">Network</option>
+                            <option value="EMAIL">Email</option>
+                            <option value="PRINTER">Printer</option>
+                            <option value="ACCOUNT_ACCESS">Account/Access</option>
+                            <option value="DATA_RECOVERY">Data Recovery</option>
+                            <option value="OTHER">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Raised By *</label>
+                        <input type="text" id="t-raised-by" placeholder="Full name">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Description</label>
+                        <textarea id="t-description" rows="3" placeholder="Describe the issue in detail..."></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-ghost" id="cancel-ticket">Cancel</button>
+                <button class="btn-primary" id="submit-ticket">Submit Ticket</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION -->
+    <div class="toast" id="toast"></div>
+
+    <script src="config.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,46 @@
+version: "3.9"
+
+services:
+
+  # Spring Boot API
+  api:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+      - DATABASE_URL=jdbc:postgresql://db:5432/kenitdb
+      - DATABASE_USER=kenit
+      - DATABASE_PASSWORD=kenit_secure_2026
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+
+  # PostgreSQL (prod database)
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: kenitdb
+      POSTGRES_USER: kenit
+      POSTGRES_PASSWORD: kenit_secure_2026
+    volumes:
+      - kenit_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U kenit -d kenitdb"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  # Static frontend — nginx serves it on port 3000
+  frontend:
+    image: nginx:alpine
+    ports:
+      - "3000:80"
+    volumes:
+      - ./frontend:/usr/share/nginx/html:ro
+    restart: unless-stopped
+
+volumes:
+  kenit_data:

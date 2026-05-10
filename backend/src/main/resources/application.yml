@@ -1,0 +1,76 @@
+spring:
+  application:
+    name: KenIT ICT Suite
+
+  datasource:
+    url: jdbc:h2:mem:kenitdb;DB_CLOSE_DELAY=-1
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.H2Dialect
+
+  jackson:
+    time-zone: Africa/Nairobi
+    serialization:
+      write-dates-as-timestamps: false
+
+server:
+  port: 8080
+
+# Render uses this to confirm the container is healthy before routing traffic
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      show-details: never
+
+logging:
+  level:
+    ke.co.kenit: DEBUG
+    org.springframework.security: WARN
+
+---
+# Activated by SPRING_PROFILES_ACTIVE=prod in render.yaml
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+  datasource:
+    # Render's connectionString = postgres://user:pass@host/db — NOT a valid JDBC URL.
+    # Use the five individual properties and build the JDBC URL here instead.
+    url: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      connection-timeout: 30000
+      maximum-pool-size: 5
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+  h2:
+    console:
+      enabled: false
