@@ -7,4 +7,4 @@
  *              copy its URL (e.g. https://kenit-api.onrender.com)
  *              paste it below, then push — kenit-ui will redeploy in ~30s.
  */
-window.KENIT_API_URL = "";   // ← paste Render API URL here for prod
+window.KENIT_API_URL = "https://kenit-api-ub1w.onrender.com";   // ← paste Render API URL here for prod
