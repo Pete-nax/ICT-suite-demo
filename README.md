@@ -1,7 +1,7 @@
-# KenIT — ICT Helpdesk & Network Monitor
+# KenIT : ICT Helpdesk & Network Monitor
 
-A production-grade ICT management suite built for Kenyan organizations.
-Handles helpdesk tickets, IT asset inventory, and live network monitoring — all in one dashboard.
+An ICT management suite built for Kenyan organizations.
+Handles helpdesk tickets, IT asset inventory, and live network monitoring  all in one dashboard.
 
 Built with Java 21 (Virtual Threads), Python 3.12, and Vanilla JS.
 
