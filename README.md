@@ -11,11 +11,11 @@ Built with Java 21 (Virtual Threads), Python 3.12, and Vanilla JS.
 
 | Module | What it does |
 |---|---|
-| 🎫 Helpdesk | Raise, assign, and resolve support tickets |
-| 🖥️ Asset Inventory | Track laptops, printers, routers, licenses |
-| 📡 Network Scanner | Discover all devices on the LAN via Python |
-| 🔔 Ping Monitor | Live up/down status for critical hosts |
-| 📊 Dashboard | Summary stats — open tickets, offline devices, assets |
+|  Helpdesk | Raise, assign, and resolve support tickets |
+|  Asset Inventory | Track laptops, printers, routers, licenses |
+|  Network Scanner | Discover all devices on the LAN via Python |
+|  Ping Monitor | Live up/down status for critical hosts |
+|  Dashboard | Summary stats — open tickets, offline devices, assets |
 
 ---
 
@@ -78,17 +78,6 @@ sudo python3 scanner.py --subnet 192.168.1.0/24
 cd frontend && python3 -m http.server 3000
 ```
 
----
-
-## Deploy to Render (Free Tier)
-
-1. Push to GitHub
-2. New Web Service → connect repo
-3. Build command: `cd backend && ./mvnw package -DskipTests`
-4. Start command: `java -jar backend/target/kenit-1.0.jar`
-5. Add env var: `SPRING_PROFILES_ACTIVE=prod`
-
----
 
 ## API Endpoints
 
@@ -110,16 +99,5 @@ GET    /api/dashboard/stats      # Summary numbers
 
 ---
 
-## Kenyan Context
 
-- Department names default to Kenyan Gov/NGO structure (ICT, Finance, HR, Registry)
-- Asset tags use `KEN-YYYY-XXX` format
-- Time zone: Africa/Nairobi (EAT UTC+3)
-- Currency: KES for license/asset cost tracking
 
----
-
-## Author
-
-Built as a portfolio project demonstrating ICT Officer competencies:
-network administration, helpdesk operations, and systems management.
